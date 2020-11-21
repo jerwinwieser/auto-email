@@ -48,7 +48,7 @@ def main():
 
     # For each contact, send the email:
     for name, email in zip(names, emails):
-        print('Sending email to : ' + name.title())
+        print('Composing email for : ' + name.title())
 
         # create a message
         msg = MIMEMultipart()
@@ -56,10 +56,17 @@ def main():
         # add in the actual person name to the message template
         message = message_template.substitute(PERSON_NAME=name.title())
         
-        part = attach_document('document.pdf')
+        # attach these files        
+        filenames = ['document1.pdf', 'document2.pdf']
 
-        # add attachment to message and convert message to string
-        msg.attach(part)
+        for filename in filenames:
+            print('Attaching file : ' + filename)
+
+            # add attachment to email
+            part = attach_document(filename)
+
+            # add attachment to message and convert message to string
+            msg.attach(part)
 
         # setup the parameters of the message
         msg['From']=ADDRESS
@@ -78,3 +85,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    print('Email has been send')
