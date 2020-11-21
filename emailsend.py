@@ -7,38 +7,24 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-MY_ADDRESS, PASSWORD = pd.read_csv('__credentials__/details.txt').values[0]
+ADDRESS, PASSWORD = pd.read_csv('__credentials__/details.txt').values[0]
 
-def get_contacts(filename):    
-    names = []
-    emails = []
-    with open(filename, mode='r', encoding='utf-8') as contacts_file:
-        for a_contact in contacts_file:
-            names.append(a_contact.split()[0])
-            emails.append(a_contact.split()[1])
-    return names, emails
+contacts = pd.read_csv('contacts.csv')
+names = contacts['name'].values
+emails = contacts['email'].values
 
-def read_template(filename):
-    """
-    Returns a Template object comprising the contents of the 
-    file specified by filename.
-    """
-    
+def read_template(filename):    
     with open(filename, 'r', encoding='utf-8') as template_file:
         template_file_content = template_file.read()
     return Template(template_file_content)
 
-names, emails = get_contacts('contacts.txt') # read contacts
 message_template = read_template('message.txt')
 
 def main():
-    names, emails = get_contacts('contacts.txt') # read contacts
-    message_template = read_template('message.txt')
-
     # set up the SMTP server
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
     s.starttls()
-    s.login(MY_ADDRESS, PASSWORD)
+    s.login(ADDRESS, PASSWORD)
 
     # For each contact, send the email:
     for name, email in zip(names, emails):
@@ -51,7 +37,7 @@ def main():
         print(message)
 
         # setup the parameters of the message
-        msg['From']=MY_ADDRESS
+        msg['From']=ADDRESS
         msg['To']=email
         msg['Subject']="This is TEST"
       
