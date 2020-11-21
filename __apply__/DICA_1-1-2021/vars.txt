@@ -1,0 +1,21 @@
+\newcommand{\letterdate}{1/1/2021}
+\newcommand{\sendername}{Jerwin Wieser}
+\newcommand{\sendertitle}{MSc}
+\newcommand{\senderstreet}{Javastraat 93 C}
+\newcommand{\senderpostal}{2585 AG}
+\newcommand{\sendercity}{The Hague}
+\newcommand{\sendercountry}{The Netherlands}
+\newcommand{\senderemail}{j2.wieser@gmail.com}
+\newcommand{\senderphone}{31645964825}
+\newcommand{\jobopening}{Data Scientist}
+\newcommand{\jobfield}{Data Science}
+\newcommand{\companynameperson}{Michiel}
+\newcommand{\companynamepersontitle}{Dr}
+\newcommand{\companyname}{Dutch Institute for Clinical Auditing}
+\newcommand{\companynameshort}{DICA}
+\newcommand{\companydepartment}{Department of Data Science}
+\newcommand{\companystreet}{Rijnsburgseweg 999}
+\newcommand{\companypostal}{9999 AB}
+\newcommand{\companycity}{Leiden}
+\newcommand{\companyemail}{j2.wieser@gmail.com}
+\newcommand{\sourcevacancy}{LinkedIn}

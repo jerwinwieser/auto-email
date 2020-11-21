@@ -1,0 +1,1 @@
+cat $(find . | grep vars) | grep companyemail} | grep -o "[^{^}]*" | grep -v [\\] > file2.csv

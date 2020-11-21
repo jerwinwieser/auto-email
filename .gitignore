@@ -1,6 +1,7 @@
 __credentials__/
 contacts.csv
 *.pdf
+apply/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

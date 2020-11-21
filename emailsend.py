@@ -8,6 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import pandas as pd
+import os
 
 def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:
@@ -34,17 +35,27 @@ def attach_document(filename):
 
 ADDRESS, PASS = pd.read_csv('__credentials__/details.txt').values[0]
 
-contacts = pd.read_csv('contacts.csv')
+contacts = pd.read_csv('contacts.csv', names = ['name', 'email'])
+
+print(contacts)
+
 names = contacts['name'].values
 emails = contacts['email'].values
 
 message_template = read_template('message.txt')
-
+ 
 def main():
     # set up the SMTP server
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
     s.starttls()
     s.login(ADDRESS, PASS)
+
+ 
+    # attach these files
+    dirs = os.listdir('__apply__')
+    filenames = ['__apply__/' + dir + '/letter.pdf' for dir in dirs]
+
+    i = 0
 
     # For each contact, send the email:
     for name, email in zip(names, emails):
@@ -55,18 +66,19 @@ def main():
 
         # add in the actual person name to the message template
         message = message_template.substitute(PERSON_NAME=name.title())
+      
+        filename = filenames[i]
+
+        print('Attaching file : ' + filename)
+            
+        # add attachment to email
+        part = attach_document(filename)
+
+        # add attachment to message and convert message to string
+        msg.attach(part)
         
-        # attach these files        
-        filenames = ['document1.pdf', 'document2.pdf']
-
-        for filename in filenames:
-            print('Attaching file : ' + filename)
-
-            # add attachment to email
-            part = attach_document(filename)
-
-            # add attachment to message and convert message to string
-            msg.attach(part)
+        # iterate
+        i += 1
 
         # setup the parameters of the message
         msg['From']=ADDRESS
