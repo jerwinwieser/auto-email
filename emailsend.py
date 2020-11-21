@@ -2,15 +2,35 @@ import smtplib
 
 from string import Template
 
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import pandas as pd
 
-def read_template(filename):    
+def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:
         template_file_content = template_file.read()
     return Template(template_file_content)
+
+def attach_document(filename):
+    # open pdf file in binary mode
+    with open(filename, "rb") as attachment:
+        # add file as application/octet-stream
+        # email client can usually download this automatically as attachment
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+
+    # encode file in ASCII characters to send by email    
+    encoders.encode_base64(part)
+
+    # add header as key/value pair to attachment part
+    part.add_header(
+        "Content-Disposition",
+        f"attachment; filename= {filename}",
+    )
+    return part
 
 ADDRESS, PASS = pd.read_csv('__credentials__/details.txt').values[0]
 
@@ -35,6 +55,11 @@ def main():
 
         # add in the actual person name to the message template
         message = message_template.substitute(PERSON_NAME=name.title())
+        
+        part = attach_document('document.pdf')
+
+        # add attachment to message and convert message to string
+        msg.attach(part)
 
         # setup the parameters of the message
         msg['From']=ADDRESS
