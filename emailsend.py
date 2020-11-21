@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-ADDRESS, PASSWORD = pd.read_csv('__credentials__/details.txt').values[0]
+ADDRESS, PASS = pd.read_csv('__credentials__/details.txt').values[0]
 
 contacts = pd.read_csv('contacts.csv')
 names = contacts['name'].values
@@ -24,7 +24,7 @@ def main():
     # set up the SMTP server
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
     s.starttls()
-    s.login(ADDRESS, PASSWORD)
+    s.login(ADDRESS, PASS)
 
     # For each contact, send the email:
     for name, email in zip(names, emails):
