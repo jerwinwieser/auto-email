@@ -49,37 +49,36 @@ def main():
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
     s.starttls()
     s.login(ADDRESS, PASS)
-
  
     # attach these files
-    dirs = os.listdir('__apply__')
-    filenames = ['__apply__/' + dir + '/letter.pdf' for dir in dirs]
-
+    dirnames = os.listdir('__apply__')
     i = 0
 
     # For each contact, send the email:
-    for name, email in zip(names, emails):
+    for name, email, dirname in zip(names, emails, dirnames):
         print('Composing email for : ' + name.title())
-
+      
         # create a message
         msg = MIMEMultipart()
 
         # add in the actual person name to the message template
         message = message_template.substitute(PERSON_NAME=name.title())
-      
-        filename = filenames[i]
-
-        print('Attaching file : ' + filename)
-            
-        # add attachment to email
-        part = attach_document(filename)
-
-        # add attachment to message and convert message to string
-        msg.attach(part)
+       
+        dirname = '__apply__/' + dirname
+        filenames = os.listdir(dirname)
         
-        # iterate
-        i += 1
+        filenames = [dirname + '/' + filename for filename in filenames]
+        print(filenames)
 
+        for filename in filenames:
+            print('Attaching file : ' + filename)
+            
+            # add attachment to email
+            part = attach_document(filename)
+
+            # add attachment to message and convert message to string
+            msg.attach(part)
+        
         # setup the parameters of the message
         msg['From']=ADDRESS
         msg['To']=email
