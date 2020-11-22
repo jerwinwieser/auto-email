@@ -1,6 +1,7 @@
 __credentials__/
 contacts.csv
 *.pdf
+*.csv
 apply/
 
 # Byte-compiled / optimized / DLL files
