@@ -3,6 +3,7 @@ contacts.csv
 *.pdf
 *.csv
 apply/
+__apply__/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
